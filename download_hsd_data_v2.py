@@ -50,7 +50,7 @@ def main():
     # we will use time delta to specify date increment 
     delta = '1'
 
-    # creaate start and end date in datetime format
+    # create start and end date in datetime format
     datei = datetime.strptime(str(dateIni), "%Y%m%d")
     datef = datetime.strptime(str(dateFin), "%Y%m%d")
 
