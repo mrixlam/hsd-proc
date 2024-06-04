@@ -69,14 +69,17 @@ def read_hsd_data_and_generate_plot_with_satpy(base_dir, start_time_str, hours, 
         filename = os.path.join(output_dir, f'himawari_ahi_{rgbname}_{timestamp.strftime("%Y%m%d%H%M")}.png')
         img = plt.imread(filename)
         ax.imshow(img)
-        ax.set_title(f'{rgbname.capitalize()} - {timestamp.strftime("%Y-%m-%d %H:%M")}')
+        ax.set_title(f'Himawari RGB {rgbname} Composite \n Valid at: {timestamp.strftime("%Y-%m-%d %H:%M")}')
         ax.axis('off')  # Hide the axis
 
     # Adjust layout
     plt.tight_layout()
 
+    # specify the filename
+    outfname = f'himawari_RGB_{rgbname}_composite_plot_for_{timestamp.strftime("%Y%m%d%H%M")}.png'
+    
     # Save the panel plot to the specified output file
-    plt.savefig(output_plot)
+    plt.savefig(outfname)
 
     # Show the plot
     plt.show()
