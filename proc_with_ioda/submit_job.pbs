@@ -1,0 +1,24 @@
+#!/bin/sh
+##############################################################
+# Script to submit the job to convert HSD data with obs2ioda 
+##############################################################
+#!/bin/bash
+#PBS -N convert_hsd_files_with_obs2ioda
+#PBS -q main
+#PBS -l select=1:ncpus=1:mem=45GB
+#PBS -o run_ahi_converter.out
+#PBS -l walltime=06:00:00
+#PBS -A NMMM0015
+
+# change directory
+cd /glade/derecho/scratch/mrislam/work/pandac/radiance_data_processing/obs_ioda/work
+
+# reset module and environmental variables
+module restore system
+
+# load mpas-jedi module and environmental variables
+source /glade/derecho/scratch/mrislam/mpas_jedi_tutorial/mpas_bundle_mrislam/code/env-setup/gnu-derecho.sh
+
+# submit the bash job script for execution
+echo "... Submiting job convert_hsd_data_with_obs2ioda_serial.sh ..."
+./convert_hsd_data_with_obs2ioda_serial.sh
