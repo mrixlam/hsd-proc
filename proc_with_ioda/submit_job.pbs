@@ -1,12 +1,12 @@
-#!/bin/sh
 ##############################################################
 # Script to submit the job to convert HSD data with obs2ioda 
 ##############################################################
+
 #!/bin/bash
-#PBS -N convert_hsd_files_with_obs2ioda
+#PBS -N convert_hsd_files_with_obs2ioda_and_mpi
 #PBS -q main
-#PBS -l select=1:ncpus=1:mem=45GB
-#PBS -o run_ahi_converter.out
+#PBS -l select=1:ncpus=128
+#PBS -o convert_hsd_data_with_obs2ioda_in_parallel.out
 #PBS -l walltime=06:00:00
 #PBS -A NMMM0015
 
@@ -17,8 +17,11 @@ cd /glade/derecho/scratch/mrislam/work/pandac/radiance_data_processing/obs_ioda/
 module restore system
 
 # load mpas-jedi module and environmental variables
-source /glade/derecho/scratch/mrislam/mpas_jedi_tutorial/mpas_bundle_mrislam/code/env-setup/gnu-derecho.sh
+# source /glade/derecho/scratch/mrislam/mpas_jedi_tutorial/mpas_bundle_mrislam/code/env-setup/gnu-derecho.sh
 
 # submit the bash job script for execution
-echo "... Submiting job convert_hsd_data_with_obs2ioda_serial.sh ..."
-./convert_hsd_data_with_obs2ioda_serial.sh
+echo "... Submiting job convert_hsd_data_with_obs2ioda_parallel.sh ..."
+mpiexec -n 128 ./convert_hsd_data_with_obs2ioda_parallel.sh
+
+# to perform serial execution of the job, please use: 
+# ./convert_hsd_data_with_obs2ioda_serial.sh

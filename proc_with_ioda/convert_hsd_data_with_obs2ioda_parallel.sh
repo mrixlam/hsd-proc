@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Module load cray-mpich/8.1.25
+module load cray-mpich/8.1.25
+
 # Define the base directory path
 base_dir="/glade/derecho/scratch/mrislam/work/pandac/radiance_data_processing/obs_ioda/work"
 
@@ -23,8 +26,17 @@ times=('0000' '0010' '0020' '0030' '0040' '0050' '0100' '0110' '0120' '0130' '01
        '2000' '2010' '2020' '2030' '2040' '2050' '2100' '2110' '2120' '2130' '2140' '2150' 
        '2200' '2210' '2220' '2230' '2240' '2250' '2300' '2310' '2320' '2330' '2340' '2350')
 
+# Get the rank and size from MPI
+rank=$(mpiexec echo $OMPI_COMM_WORLD_RANK)
+size=$(mpiexec echo $OMPI_COMM_WORLD_SIZE)
+
 # Loop through each directory in the specified base directory
-for dir in "$base_dir"/input/201*; do
+dirs=("$base_dir"/input/201*)
+num_dirs=${#dirs[@]}
+
+# Distribute directories among MPI processes
+for (( i=rank; i<num_dirs; i+=size )); do
+    dir=${dirs[$i]}
     if [[ -d "$dir" ]]; then  # Check if it's a directory
         yyyymmdd=$(basename "$dir") # Extract the directory name
         echo "The extracted date (yyyymmdd) is: $yyyymmdd"
