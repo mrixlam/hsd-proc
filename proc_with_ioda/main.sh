@@ -39,7 +39,7 @@ current_jobs=64
 
 # Process each directory
 for yyyymmdd in "${yyyymmdd_list[@]}"; do
-    ./process_hsd_old.sh "$yyyymmdd" &
+    ./process_hsd_data.sh "$yyyymmdd" &
     ((current_jobs++))
 
     # Wait for some jobs to finish if we reach the max_jobs limit
@@ -53,9 +53,9 @@ done
 wait
 
 # Alternative 1: Use xargs to parallelize the processing of directories
-# printf "%s\n" "${yyyymmdd_list[@]}" | xargs -n 1 -P 1 ./process_hsd_old.sh
+# printf "%s\n" "${yyyymmdd_list[@]}" | xargs -n 1 -P 1 ./process_hsd_data.sh
 
 # Alternative 2: Use parallel to process directories in parallel
-# printf "%s\n" "${yyyymmdd_list[@]}" | parallel -j 64 ./process_hsd_old.sh {}
+# printf "%s\n" "${yyyymmdd_list[@]}" | parallel -j 64 ./process_hsd_data.sh {}
 
 
