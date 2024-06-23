@@ -1,3 +1,13 @@
+# -----------------------------------------------------------------------------------------
+
+# This is an alternative way to process hsd data with obs2ioda in parallel 
+# For parallelization, I used xargs available with unix
+
+# Author: Rubaiat Islam
+# Last updated: 2024-06-23
+
+# -----------------------------------------------------------------------------------------
+
 #!/bin/bash
 
 # Define the base directory path
