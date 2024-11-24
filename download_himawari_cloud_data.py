@@ -6,7 +6,7 @@
 #    start date, end date, temporal frequency and saves them to a user specified location.
 #
 #    Author: Rubaiat Islam (mrislam@ucar.edu)
-#    Last Modified: May 29, 2024
+#    Last Modified: November 23, 2024
 #
 ####################################################################################################################
 
@@ -20,7 +20,9 @@ import sys
 
 def main():
 
-    # Determine whether AWS CLI is installed in the system. If installed, print the location of the installation and use it. If not, throw an error message and stop executing the script.
+    # Determine whether AWS CLI is installed in the system. If installed, print the location of the installation and use it. If not, 
+    # throw an error message and stop executing the script.
+
     result = subprocess.run(["which", "aws"], capture_output=True, text=True)
     if result.returncode != 0:
         print("")
@@ -37,7 +39,7 @@ def main():
         )
         print("")
 
-    # Specify the directory where HSD data will be downloaded
+    # Specify the directory where Himawari cloud data will be downloaded
     main_path = "/glade/derecho/scratch/mrislam/work/pandac/data/AHI-L2-FLDK-Clouds"
 
     # Specify the start and end date for the data retrieval period
@@ -51,8 +53,10 @@ def main():
     datei = datetime.strptime(str(dateIni), "%Y%m%d")
     datef = datetime.strptime(str(dateFin), "%Y%m%d")
 
+    # This script downloads data once every hour but if there is a need to download data for a different frequency, 
+    # variable {times} should be modified accordingly
+
     # Specify the available time options (in HHMM) when the Himawari satellite has observation 
-    # This script downloads data once every hour but if there is a need to download data for a different frequency, {times} should be modified accordingly
     times = [
         "0000",
         "0100",
@@ -92,13 +96,19 @@ def main():
         print("")
         date = datei
         while date <= datef:
-            datestr = date.strftime("%Y%m%d")  # Create datetime string
-            yyyy = date.strftime("%Y")  # Extract year from datetime string
-            mm = date.strftime("%m")  # Extract month from datetime string
-            dd = date.strftime("%d")  # Extract day from datetime string
+            datestr = date.strftime("%Y%m%d")   # Create datetime string
+            yyyy = date.strftime("%Y")          # Extract year from datetime string
+            mm = date.strftime("%m")            # Extract month from datetime string
+            dd = date.strftime("%d")            # Extract day from datetime string
+            hh = date.strftime("%H")            # Extract day from datetime string
+
+            # If we need the output directory names to be formatted as 'ccyymmddhh', use dirname = date.strftime("%Y%m%d%H")  
+            # If we need the output directory names to be formatted as 'ccyymmdd', use dirname = date.strftime("%Y%m%d")  
 
             # Create data directories where downloaded data will be saved
-            obs_dir = os.path.join(main_path, datestr)
+            dirname = date.strftime("%Y%m%d%H") 
+            print(f"Directory Name: {dirname}")
+            obs_dir = os.path.join(main_path, dirname)
             if not os.path.exists(obs_dir):
                 os.makedirs(obs_dir)
 
