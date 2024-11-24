@@ -24,6 +24,7 @@ def main():
     # throw an error message and stop executing the script.
 
     result = subprocess.run(["which", "aws"], capture_output=True, text=True)
+
     if result.returncode != 0:
         print("")
         print(
@@ -40,7 +41,7 @@ def main():
         print("")
 
     # Specify the directory where Himawari cloud data will be downloaded
-    main_path = "/glade/derecho/scratch/mrislam/work/pandac/data/AHI-L2-FLDK-Clouds"
+    main_path = "/glade/derecho/scratch/mrislam/work/pandac/data/ahiClouds"
 
     # Specify the start and end date for the data retrieval period
     dateIni = "20240601"        # Start date formatted as ccyymmdd
@@ -100,14 +101,13 @@ def main():
             yyyy = date.strftime("%Y")          # Extract year from datetime string
             mm = date.strftime("%m")            # Extract month from datetime string
             dd = date.strftime("%d")            # Extract day from datetime string
-            hh = date.strftime("%H")            # Extract day from datetime string
+            hh = date.strftime("%H")            # Extract hour from datetime string
 
-            # If we need the output directory names to be formatted as 'ccyymmddhh', use dirname = date.strftime("%Y%m%d%H")  
-            # If we need the output directory names to be formatted as 'ccyymmdd', use dirname = date.strftime("%Y%m%d")  
+            # If we need the output directory names to be formatted as 'ccyymmddhh', use dirname = datestr + timeX[:2]
+            # If we need the output directory names to be formatted as 'ccyymmdd', use dirname = datestr
 
             # Create data directories where downloaded data will be saved
-            dirname = date.strftime("%Y%m%d%H") 
-            print(f"Directory Name: {dirname}")
+            dirname = datestr + timeX[:2]
             obs_dir = os.path.join(main_path, dirname)
             if not os.path.exists(obs_dir):
                 os.makedirs(obs_dir)
